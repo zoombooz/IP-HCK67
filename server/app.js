@@ -1,4 +1,18 @@
+const axios = require('axios');
 
+async function fetchData() {
+    try {
+        const data = await axios({
+            method : "GET",
+            url : "https://dummyjson.com/products"
+        })
+        console.log(data);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+fetchData()
 
 
 
@@ -13,5 +27,7 @@ npx sequelize-cli model:generate --name Product --attributes title:string,descri
 npx sequelize-cli model:generate --name Cart --attributes userId:integer,productId:integer,amount:integer
 
 npx sequelize-cli model:generate --name Image --attributes imageUrl:string,productId:integer
+
+npx sequelize-cli seed:generate --name insert-data-to-tables
 
 */

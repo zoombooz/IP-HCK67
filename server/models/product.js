@@ -11,6 +11,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Product.hasMany(models.Image, {
+        foreignKey : "productId"
+      })
+
+      Product.belongsToMany
     }
   }
   Product.init({
@@ -92,7 +97,18 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    thumbnail: DataTypes.STRING
+    thumbnail: {
+      type : DataTypes.STRING,
+      allowNull : false,
+      validate : {
+        notNull : {
+          msg : "Thumbnail is required"
+        },
+        notEmpty : {
+          msg : "Thumbnail is required"
+        }
+      }
+    }
   }, {
     hooks : {
       beforeCreate : () => {

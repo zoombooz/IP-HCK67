@@ -14,7 +14,18 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Image.init({
-    imageUrl: DataTypes.STRING,
+    imageUrl: {
+      type : DataTypes.STRING,
+      allowNull : false,
+      validate : {
+        notNull : {
+          msg : "Image URL is required"
+        },
+        notEmpty : {
+          msg : "Image URL is required"
+        }
+      }
+    },
     productId: {
       type : DataTypes.INTEGER,
     }
