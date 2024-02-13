@@ -1,22 +1,20 @@
-const axios = require('axios');
-
-async function fetchData() {
-    try {
-        const data = await axios({
-            method : "GET",
-            url : "https://dummyjson.com/products"
-        })
-        console.log(data);
-    } catch (error) {
-        console.log(error);
-    }
+if(process.env.NODE_ENV !== "production"){
+    require('dotenv').config();
 }
 
-fetchData()
+const express = require('express')
+const app = express()
+const router = require('./routes')
+const cors = require('cors');
 
+app.use(cors())
 
+app.use(express.urlencoded({extended : true}))
+app.use(express.json())
 
+app.use(router)
 
+module.exports = app
 
 /*
 
