@@ -14,16 +14,93 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Product.init({
-    title: DataTypes.STRING,
-    description: DataTypes.TEXT,
-    price: DataTypes.INTEGER,
-    discountPercentage: DataTypes.DECIMAL,
-    rating: DataTypes.DECIMAL,
-    stock: DataTypes.INTEGER,
-    brand: DataTypes.STRING,
-    category: DataTypes.STRING,
+    title: {
+      type : DataTypes.STRING,
+      allowNull : false, 
+      validate : {
+        notNull : {
+          msg : "Title is required"
+        },
+        notEmpty : {
+          msg : "Title is required"
+        }
+      }
+    },
+    description: {
+      type : DataTypes.TEXT,
+      allowNull : false, 
+      validate : {
+        notNull : {
+          msg : "Description is required"
+        },
+        notEmpty : {
+          msg : "Description is required"
+        }
+      }
+    },
+    price: {
+      type : DataTypes.INTEGER,
+      allowNull : false, 
+      validate : {
+        notNull : {
+          msg : "Price is required"
+        },
+        notEmpty : {
+          msg : "Price is required"
+        }
+      }
+    },
+    discountPercentage: {
+      type : DataTypes.DECIMAL
+    },
+    rating: {
+      type : DataTypes.DECIMAL
+    },
+    stock: {
+      type : DataTypes.INTEGER,
+      allowNull : false,
+      validate : {
+        notNull : {
+          msg : "Stock is required"
+        },
+        notEmpty : {
+          msg : "Stock is required"
+        }
+      }
+    },
+    brand: {
+      type : DataTypes.STRING,
+      allowNull : false,
+      validate : {
+        notNull : {
+          msg : "Brand is required"
+        },
+        notEmpty : {
+          msg : "Brand is required"
+        }
+      }
+    },
+    category: {
+      type : DataTypes.STRING,
+      allowNull : false,
+      validate : {
+        notNull : {
+          msg : "Category is required"
+        },
+        notEmpty : {
+          msg : "Category is required"
+        }
+      }
+    },
     thumbnail: DataTypes.STRING
   }, {
+    hooks : {
+      beforeCreate : () => {
+        if (!this.discountPercentage){
+          this.discountPercentage = 0
+        }
+      }
+    },
     sequelize,
     modelName: 'Product',
   });
