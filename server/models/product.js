@@ -111,9 +111,9 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     hooks : {
-      beforeCreate : () => {
-        if (!this.discountPercentage){
-          this.discountPercentage = 0
+      beforeCreate : (product) => {
+        if (!product.discountPercentage){
+          product.discountPercentage = 0
         }
       }
     },

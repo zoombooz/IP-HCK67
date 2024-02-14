@@ -79,8 +79,14 @@ module.exports = (sequelize, DataTypes) => {
           msg : "Address is required"
         }
       }
-    }
+    },
+    role: DataTypes.STRING,
   }, {
+    hooks : {
+      beforeCreate : (user) => {
+        user.role = "staff"
+      }
+    },
     sequelize,
     modelName: 'User',
   });
