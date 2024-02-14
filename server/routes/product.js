@@ -7,16 +7,16 @@ const router = express.Router()
 
 router.get('/', authentication, Controller.getProduct)
 
+router.get('/pub', Controller.getProduct)
+
 router.post('/', authentication, Controller.postProduct)
 
 router.get('/:id', authentication, Controller.getProductById)
 
-router.put('/:id', (req, res) => {
-  res.send('Product update page')
-})
+router.get('/:id/pub', Controller.getProductById)
 
-router.delete('/:id', (req, res) => {
-  res.send('Product delete page')
-})
+router.put('/:id', authentication, Controller.putProduct)
+
+router.delete('/:id', authentication, Controller.deleteProduct)
 
 module.exports = router
