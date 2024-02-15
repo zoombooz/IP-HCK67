@@ -7,6 +7,7 @@ const app = express()
 const router = require('./routes')
 const cors = require('cors');
 const errorHandler = require('./middlewares/error-handler');
+const midtransClient = require('midtrans-client');
 
 app.use(cors())
 

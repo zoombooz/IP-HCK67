@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import {
   createBrowserRouter,
+  redirect,
   RouterProvider,
 } from "react-router-dom";
 import './index.css'
@@ -11,6 +12,9 @@ import LoginComponent from './components/Login';
 import RegisterComponent from './components/Register';
 import ProductCardComponent from './components/ProductCard';
 import ProductDetailComponent from './components/ProductDetail';
+import ProductFormComponent from './components/ProductForm';
+import CartComponent from './components/Cart';
+
 
 const router = createBrowserRouter([
   {
@@ -18,21 +22,39 @@ const router = createBrowserRouter([
     element: 
     <>
       <LoginComponent />
-    </>
+    </>,
+    loader : async () => {
+      if(localStorage.getItem("access_token")){
+        throw redirect("/")
+    }
+    return null
+    }
   },
   {
     path: "/register",
     element: 
     <>
       <RegisterComponent />
-    </>
+    </>,
+    loader : async () => {
+      if(localStorage.getItem("access_token")){
+        throw redirect("/")
+    }
+    return null
+    }
   },
   {
     path: "/",
     element: 
     <>
       <NavbarComponent />
-    </>
+    </>,
+    loader : async () => {
+      if(!localStorage.getItem("access_token")){
+        throw redirect("/login")
+    }
+    return null
+    }
   },
   {
     path: "/product",
@@ -40,7 +62,13 @@ const router = createBrowserRouter([
     <>
       <NavbarComponent />
       <ProductCardComponent />
-    </>
+    </>,
+    loader : async () => {
+      if(!localStorage.getItem("access_token")){
+        throw redirect("/login")
+    }
+    return null
+    }
   },
   {
     path: "/product/:id",
@@ -48,36 +76,68 @@ const router = createBrowserRouter([
     <>
       <NavbarComponent />
       <ProductDetailComponent />
-    </>
+    </>,
+    loader : async () => {
+      if(!localStorage.getItem("access_token")){
+        throw redirect("/login")
+    }
+    return null
+    }
   },
   {
     path: "/cart",
     element: 
     <>
       <NavbarComponent />
-      <h1>User Cart Page</h1>
-    </>
+      <CartComponent />
+    </>,
+    loader : async () => {
+      if(!localStorage.getItem("access_token")){
+        throw redirect("/login")
+    }
+    return null
+    }
   },
   {
     path: "/product-list",
     element: 
     <>
       <h1>Product CMS Page</h1>
-    </>
+    </>,
+    loader : async () => {
+      if(!localStorage.getItem("access_token")){
+        throw redirect("/login")
+    }
+    return null
+    }
   },
   {
     path: "/product-list/add",
     element: 
     <>
-      <h1>Product Add Page</h1>
-    </>
+      <NavbarComponent />
+      <ProductFormComponent />
+    </>,
+    loader : async () => {
+      if(!localStorage.getItem("access_token")){
+        throw redirect("/login")
+    }
+    return null
+    }
   },
   {
-    path: "/product-list/update",
+    path: "/product-list/:id/update",
     element: 
     <>
-      <h1>Product Update Page</h1>
-    </>
+      <NavbarComponent />
+      <ProductFormComponent />
+    </>,
+    loader : async () => {
+      if(!localStorage.getItem("access_token")){
+        throw redirect("/login")
+    }
+    return null
+    }
   },
   {
     path: "/about",
@@ -85,7 +145,13 @@ const router = createBrowserRouter([
     <>
       <NavbarComponent />
       <h1>About us Page</h1>
-    </>
+    </>,
+    loader : async () => {
+      if(!localStorage.getItem("access_token")){
+        throw redirect("/login")
+    }
+    return null
+    }
   }
 ]);
 

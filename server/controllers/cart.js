@@ -1,4 +1,5 @@
-const { Cart } = require('../models');
+const { Cart, Product } = require('../models');
+const midtransClient = require('midtrans-client');
 
 class Controller {
 
@@ -8,8 +9,26 @@ class Controller {
             let data = await Cart.findAll({
                 where : {
                     userId : userId
+                },
+                include : Product
+            })
+            res.status(200).json(data)
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    static async getCartById(req, res, next){
+        try {
+            let { id : userId } = req.user
+            let productId = req.params.productId
+            let data = await Cart.findOne({
+                where : {
+                    userId : userId,
+                    productId : productId
                 }
             })
+            console.log(data, "<<< DATA");
             res.status(200).json(data)
         } catch (error) {
             next(error)
@@ -26,7 +45,7 @@ class Controller {
                 userId,
                 amount
             })
-            res.status(201).json(result)
+            res.status(201).json({message : "Product has been added to cart"})
         } catch (error) {
             next(error)
         }
@@ -47,7 +66,7 @@ class Controller {
             let result = await cart.update({
                 amount
             })
-            res.status(200).json(result)
+            res.status(200).json({message : "Product's amount in the cart has been updated"})
         } catch (error) {
             next(error)
         }
@@ -65,7 +84,7 @@ class Controller {
             })
             if(!cart) throw {name : "Data not found"}
             await cart.destroy()
-            res.status(200).json({message: `Product is deleted`})
+            res.status(200).json({message: `Product is deleted from cart`})
         } catch (error) {
             next(error)
         }
