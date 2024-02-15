@@ -32,7 +32,7 @@ class Controller {
             if(!userData || !(compare(req.body.password, userData.password))){
                 throw {name:"Invalid Input", message:"Your input is incorrect"}
             }
-            const accessToken = jwt.sign({id: userData.id, email: userData.email}, process.env.ACCESS_TOKEN_SECRET)
+            const accessToken = jwt.sign({id: userData.id, email: userData.email, role: userData.role}, process.env.ACCESS_TOKEN_SECRET)
             res.status(200).json({accessToken})
 
         } catch (error) {

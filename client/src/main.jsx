@@ -5,33 +5,56 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import './index.css'
+import NavbarComponent from './components/Navbar';
+import HomeComponent from './pages/Home';
+import LoginComponent from './components/Login';
+import RegisterComponent from './components/Register';
+import ProductCardComponent from './components/ProductCard';
+import ProductDetailComponent from './components/ProductDetail';
 
 const router = createBrowserRouter([
+  {
+    path: "/login",
+    element: 
+    <>
+      <LoginComponent />
+    </>
+  },
+  {
+    path: "/register",
+    element: 
+    <>
+      <RegisterComponent />
+    </>
+  },
   {
     path: "/",
     element: 
     <>
-      <h1>Home Page</h1>
+      <NavbarComponent />
     </>
   },
   {
     path: "/product",
     element: 
     <>
-      <h1>Product List Page</h1>
+      <NavbarComponent />
+      <ProductCardComponent />
     </>
   },
   {
     path: "/product/:id",
     element: 
     <>
-      <h1>Product Detail Page</h1>
+      <NavbarComponent />
+      <ProductDetailComponent />
     </>
   },
   {
     path: "/cart",
     element: 
     <>
+      <NavbarComponent />
       <h1>User Cart Page</h1>
     </>
   },
@@ -56,6 +79,14 @@ const router = createBrowserRouter([
       <h1>Product Update Page</h1>
     </>
   },
+  {
+    path: "/about",
+    element: 
+    <>
+      <NavbarComponent />
+      <h1>About us Page</h1>
+    </>
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(

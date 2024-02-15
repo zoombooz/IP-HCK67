@@ -17,6 +17,7 @@ module.exports = async function authentication(req, res, next){
         if(!user){
             throw ({name:"Invalid token"})
         }
+        console.log(user, "<<< USER");
         req.user = {
             id: user.id,
             email: user.email,
