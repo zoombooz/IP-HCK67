@@ -26,7 +26,8 @@ class Controller {
                 where : {
                     userId : userId,
                     productId : productId
-                }
+                },
+                include : Product
             })
             console.log(data, "<<< DATA");
             res.status(200).json(data)

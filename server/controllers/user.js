@@ -22,7 +22,7 @@ class Controller {
     static async login(req, res, next){
         try {
             if(!req.body.email || !req.body.password){
-                throw {name:"Email/password kosong", message:"Email/password tidak boleh kosong"}
+                throw {name:"Email/password kosong", message:"Email/password is required"}
             }
             let userData = await User.findOne({
                 where: {

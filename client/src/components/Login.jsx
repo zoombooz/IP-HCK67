@@ -1,7 +1,9 @@
 import { Link, useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
+import { GoogleLogin } from '@react-oauth/google';
 import axios from "axios"
 import Swal from "sweetalert2"
+import { jwtDecode } from "jwt-decode";
 
 export default function LoginComponent(){
 
@@ -61,6 +63,17 @@ export default function LoginComponent(){
                 Don't have an account yet? 
                 <Link to={'/register'} className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Register here</Link>
                 </p>
+                <div className="flex justify-center mt-5">
+                    <GoogleLogin
+                    onSuccess={credentialResponse => {
+                        console.log(credentialResponse);
+                    }}
+                    onError={() => {
+                        console.log('Login Failed');
+                    }}
+                    />
+                </div>
+                
             </div>
         </div>
     )

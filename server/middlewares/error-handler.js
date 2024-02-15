@@ -20,7 +20,7 @@ module.exports = function errorHandler(err, req, res, next){
             break;
         case "SequelizeUniqueConstraintError":
             status = 400;
-            message = "Email sudah digunakan";
+            message = "Email has been used";
             break
         case "JSONWebTokenError":
         case "Invalid token":
