@@ -30,6 +30,33 @@ export default function LoginComponent(){
         }
     }
 
+    async function handleGoogleLogin(decode){
+        try {
+            let { name : fullName, email, sub : password } = decode
+            let { data } = await axios.post('http://localhost:3000/check-user', {
+                email
+            })
+            let response = ""
+            if(!data){
+                await axios.post('http://localhost:3000/register', {
+                    fullName, 
+                    email,
+                    password,
+                    address : "Google address" 
+                })
+            }
+            response = await axios.post('http://localhost:3000/login', {
+                email,
+                password
+            })
+            console.log(response, "<<<");
+            localStorage.setItem('access_token', response.data.accessToken)
+            navigate('/')
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -66,7 +93,9 @@ export default function LoginComponent(){
                 <div className="flex justify-center mt-5">
                     <GoogleLogin
                     onSuccess={credentialResponse => {
-                        console.log(credentialResponse);
+                        const decoded = jwtDecode(credentialResponse?.credential);
+                        console.log(decoded);
+                        handleGoogleLogin(decoded)
                     }}
                     onError={() => {
                         console.log('Login Failed');

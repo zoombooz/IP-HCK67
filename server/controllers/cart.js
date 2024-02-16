@@ -1,4 +1,4 @@
-const { Cart, Product } = require('../models');
+const { Cart, Product, User } = require('../models');
 const midtransClient = require('midtrans-client');
 
 class Controller {
@@ -12,6 +12,7 @@ class Controller {
                 },
                 include : Product
             })
+            
             res.status(200).json(data)
         } catch (error) {
             next(error)
@@ -29,7 +30,6 @@ class Controller {
                 },
                 include : Product
             })
-            console.log(data, "<<< DATA");
             res.status(200).json(data)
         } catch (error) {
             next(error)
@@ -86,6 +86,55 @@ class Controller {
             if(!cart) throw {name : "Data not found"}
             await cart.destroy()
             res.status(200).json({message: `Product is deleted from cart`})
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    static async createMidtransToken(req, res, next){
+        try {
+
+            let user = await User.findByPk(req.user.id)
+
+            let data = await Cart.findAll({
+                where : {
+                    userId : req.user.id
+                },
+                include : Product
+            })
+
+            let price = 0
+            if(data.length > 0) price += 5
+            data.forEach(el => {
+                price += (el.Product.price * el.amount)
+            })
+
+            let snap = new midtransClient.Snap({
+                // Set to true if you want Production Environment (accept real transaction).
+                isProduction : false,
+                serverKey : process.env.MIDTRANS_SERVER_KEY
+            });
+    
+            let parameter = {
+                "transaction_details": {
+                    "order_id": `TRANSACTION_${Math.floor(1000000 + Math.random() * 9000000)}`,
+                    "gross_amount": price * 15_000
+                },
+                "credit_card":{
+                    "secure" : true
+                },
+                "customer_details": {
+                    // "first_name": "budi",
+                    // "last_name": "pratama",
+                    "email": user.email,
+                    "phone": user.phoneNumber
+                }
+            };
+
+            const midtransToken = await snap.createTransaction(parameter)
+            console.log(midtransToken, "<<<<<<<<<<<<<<<<<<<<<<<<");
+            
+            res.status(201).json(midtransToken)
         } catch (error) {
             next(error)
         }

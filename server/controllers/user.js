@@ -6,6 +6,7 @@ class Controller {
     static async register(req, res, next){
         try {
             let { fullName, email, password, phoneNumber, address } = req.body
+            if(!password) throw {name : "Password kosong", message : "Password is required"}
             let newUser = await User.create({
                 fullName,
                 email,
@@ -35,6 +36,20 @@ class Controller {
             const accessToken = jwt.sign({id: userData.id, email: userData.email, role: userData.role}, process.env.ACCESS_TOKEN_SECRET)
             res.status(200).json({accessToken})
 
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    static async checkUser(req, res, next){
+        try {
+            let userData = await User.findOne({
+                where: {
+                    email : req.body.email
+                }
+            })
+            console.log(">>>", userData, "<<<");
+            res.status(200).json(userData)
         } catch (error) {
             next(error)
         }

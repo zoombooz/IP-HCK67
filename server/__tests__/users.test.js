@@ -6,9 +6,11 @@ const { hash } = require('../helpers/bcrypt');
 
 beforeAll(async () => {
     await User.create({
-        username : "admin",
+        fullName : "admin",
         email : "admin@email.com",
-        password : hash("admin")
+        password : hash("admin"),
+        phoneNumber : "12345",
+        address : "Jakarta 123"
     })
 })
 

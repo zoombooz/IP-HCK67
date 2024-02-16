@@ -49,19 +49,6 @@ const router = createBrowserRouter([
     element: 
     <>
       <NavbarComponent />
-    </>,
-    loader : async () => {
-      if(!localStorage.getItem("access_token")){
-        throw redirect("/login")
-    }
-    return null
-    }
-  },
-  {
-    path: "/product",
-    element: 
-    <>
-      <NavbarComponent />
       <ProductCardComponent />
     </>,
     loader : async () => {
